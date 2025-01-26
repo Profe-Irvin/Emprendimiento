@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego de Memoria: Conceptos de Estadística</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .memory-game {
+      display: grid;
+      grid-template-columns: repeat(6, 150px); /* 6 cartas por fila */
+      grid-gap: 10px;
+      padding: 10px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      perspective: 1000px; /* Agregamos perspectiva global para el efecto de giro */
+    }
+
+    .card {
+      width: 150px;
+      height: 150px;
+      background-color: #4CAF50; /* Color único para todas las cartas */
+      color: white;
+      font-size: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      transform-style: preserve-3d; /* Habilitar el giro 3D */
+      transition: transform 0.5s, box-shadow 0.3s ease-in-out; /* Animación para el giro y el contorno */
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg); /* Giramos la carta al ser volteada */
+      box-shadow: 0 0 15px rgba(0, 0, 255, 0.6); /* Contorno azul cuando la carta está volteada */
+    }
+
+    .card .front,
+    .card .back {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      backface-visibility: hidden; /* Esconde el reverso al girar la carta */
+      border-radius: 10px;
+      position: absolute;
+    }
+
+    /* Cara frontal vacía */
+    .card .front {
+      background-color: #4CAF50;
+      color: #4CAF50; /* El texto en la parte delantera no se ve */
+    }
+
+    /* Reverso con fondo de colores diferentes para cada carta */
+    .card .back {
+      color: black; /* Letras visibles y legibles */
+      font-weight: bold;
+      transform: rotateY(180deg); /* Rotamos el reverso para que aparezca después de girar */
+      padding: 10px; /* Un pequeño relleno alrededor del texto */
+      text-align: center; /* Centrar el texto horizontalmente */
+      font-size: 16px; /* Ajuste de tamaño de texto */
+    }
+
+    /* Asignamos colores únicos para cada carta */
+    .card:nth-child(1) .back { background-color: #ADD8E6; }  /* Celeste */
+    .card:nth-child(2) .back { background-color: #FFD700; }  /* Amarillo */
+    .card:nth-child(3) .back { background-color: #90EE90; }  /* Verde claro */
+    .card:nth-child(4) .back { background-color: #FF6347; }  /* Tomate */
+    .card:nth-child(5) .back { background-color: #FF1493; }  /* Rosa fuerte */
+    .card:nth-child(6) .back { background-color: #20B2AA; }  /* Turquesa */
+    .card:nth-child(7) .back { background-color: #8A2BE2; }  /* Azul violeta */
+    .card:nth-child(8) .back { background-color: #FF4500; }  /* Naranja */
+    .card:nth-child(9) .back { background-color: #DA70D6; }  /* Orquídea */
+    .card:nth-child(10) .back { background-color: #F08080; }  /* Rojo claro */
+    .card:nth-child(11) .back { background-color: #D3D3D3; }  /* Gris claro */
+    .card:nth-child(12) .back { background-color: #00BFFF; }  /* Azul claro */
+    .card:nth-child(13) .back { background-color: #FF69B4; }  /* Rosa */
+    .card:nth-child(14) .back { background-color: #A52A2A; }  /* Marrón */
+    .card:nth-child(15) .back { background-color: #8B4513; }  /* Sienna */
+    .card:nth-child(16) .back { background-color: #2E8B57; }  /* Verde mar */
+    .card:nth-child(17) .back { background-color: #F4A460; }  /* Arena */
+    .card:nth-child(18) .back { background-color: #7FFF00; }  /* Verde claro neón */
+    .card:nth-child(19) .back { background-color: #B0E0E6; }  /* Azul pálido */
+    .card:nth-child(20) .back { background-color: #3CB371; }  /* Verde mar */
+    .card:nth-child(21) .back { background-color: #C71585; }  /* Violeta fuerte */
+    .card:nth-child(22) .back { background-color: #00FA9A; }  /* Verde marino */
+    .card:nth-child(23) .back { background-color: #D2691E; }  /* Chocolate */
+    .card:nth-child(24) .back { background-color: #9ACD32; }  /* Verde amarillento */
+
+  </style>
+</head>
+<body>
+
+  <div class="memory-game" id="memory-game">
+    <!-- Cards with empty front and concepts on the back -->
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Estadística Descriptiva</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Estadística Inferencial</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Muestra</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Población</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Censo</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Tipos de Variables</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Medidas de Tendencia</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Medidas de Dispersión</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Media</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Moda</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Mediana</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Desviación Estándar</div>
+    </div>
+
+    <!-- Duplicate cards for matching -->
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Estadística Descriptiva</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Estadística Inferencial</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Muestra</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Población</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Censo</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Tipos de Variables</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Medidas de Tendencia</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Medidas de Dispersión</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Media</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Moda</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Mediana</div>
+    </div>
+    <div class="card">
+      <div class="front"></div>
+      <div class="back">Desviación Estándar</div>
+    </div>
+  </div>
+
+  <script>
+    const cards = document.querySelectorAll('.card');
+    const memoryGame = document.getElementById('memory-game');
+    let flippedCards = [];
+    let matchCount = 0;
+
+    // Shuffle the cards at the beginning
+    shuffleCards();
+
+    // Add event listener for each card
+    cards.forEach(card => {
+      card.addEventListener('click', flipCard);
+    });
+
+    // Shuffle the cards by rearranging the DOM elements
+    function shuffleCards() {
+      const shuffledCards = Array.from(cards);
+      shuffledCards.sort(() => Math.random() - 0.5); // Randomly shuffle the array
+      shuffledCards.forEach(card => {
+        memoryGame.appendChild(card); // Reorder the cards in the DOM
+      });
+    }
+
+    // Flip the card
+    function flipCard() {
+      if (flippedCards.length < 2 && !this.classList.contains('flipped')) {
+        this.classList.add('flipped');
+        flippedCards.push(this);
+
+        if (flippedCards.length === 2) {
+          checkForMatch();
+        }
+      }
+    }
+
+    // Check if the flipped cards match
+    function checkForMatch() {
+      const [card1, card2] = flippedCards;
+      const concept1 = card1.querySelector('.back').textContent;
+      const concept2 = card2.querySelector('.back').textContent;
+
+      if (concept1 === concept2) {
+        matchCount++;
+        flippedCards = [];
+        if (matchCount === 12) {
+          setTimeout(() => alert('¡Has ganado!'), 500);
+        }
+      } else {
+        setTimeout(() => {
+          card1.classList.remove('flipped');
+          card2.classList.remove('flipped');
+          flippedCards = [];
+        }, 1000);
+      }
+    }
+  </script>
+
+</body>
+</
